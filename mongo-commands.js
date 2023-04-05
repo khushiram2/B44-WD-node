@@ -179,14 +179,94 @@ db.books.find({ rating: { $lte: 7 } }, { name: 1, rating: 1 }).pretty();
 
 db.books.deleteOne({ rating: { $lte: 7 } });
 
-
 db.books.deleteMany({ rating: { $lte: 7 } });
 
+db.books.find().count();
 
-db.books.find().count()
+db.location.insertMany([
+  {
+    name: "Everest",
+    height: 8848,
+    location: ["Nepal", "China"],
+    ascents: {
+      first: {
+        year: 1953,
+      },
+      first_winter: {
+        year: 1980,
+      },
+      total: 5656,
+    },
+  },
+  {
+    name: "K2",
+    height: 8611,
+    location: ["Pakistan", "China"],
+    ascents: {
+      first: {
+        year: 1954,
+      },
+      first_winter: {
+        year: 1921,
+      },
+      total: 306,
+    },
+  },
+  {
+    name: "Kangchenjunga",
+    height: 8586,
+    location: ["Nepal", "India"],
+    ascents: {
+      first: {
+        year: 1955,
+      },
+      first_winter: {
+        year: 1986,
+      },
+      total: 283,
+    },
+  },
+  {
+    name: "Lhotse",
+    height: 8516,
+    location: ["Nepal", "China"],
+    ascents: {
+      first: {
+        year: 1956,
+      },
+      first_winter: {
+        year: 1988,
+      },
+      total: 461,
+    },
+  },
+  {
+    name: "Makalu",
+    height: 8485,
+    location: ["China", "Nepal"],
+    ascents: {
+      first: {
+        year: 1955,
+      },
+      first_winter: {
+        year: 2009,
+      },
+      total: 361,
+    },
+  },
+]);
+db.location.find({}).pretty();
 
+db.location.find({ name: { $ne: "Everest" } }).pretty();
 
+//match either Everest or K2
+db.location.find({ name: { $in: ["Everest", "K2", "Jammu"] } }).pretty();
 
+db.location.find({ location: { $in: ["China", "Nepal"] } }).pretty();
 
+//ascents total where total > 1000
 
+db.location.find({ "ascents.total": { $gt: 1000 } }).pretty();
 
+//get only name
+db.location.find({}, { name: 1 }).pretty();
