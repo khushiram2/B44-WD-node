@@ -144,4 +144,49 @@ db.orders.find({}).pretty();
 db.orders.aggregate({ $match: { status: "urgent" } }).pretty();
 
 //Stage 2
-db.orders.aggregate({ $match: { status: "urgent" } },{ $group: {_id: "$productName", totalUrgentQuantity: { $sum: "$quantity" }, },});
+db.orders.aggregate(
+  { $match: { status: "urgent" } },
+  {
+    $group: { _id: "$productName", totalUrgentQuantity: { $sum: "$quantity" } },
+  }
+);
+
+// Task
+// 1. update the language for all document -Default English
+
+db.books.updateMany({}, { $set: { language: "English" } });
+
+db.books.find({}).pretty();
+
+//2. update rating for "The Secret" from 8.8 to 10
+// 3. update language=Tamil for "The Secret"
+db.books.updateOne(
+  { name: "The Secret" },
+  { $set: { rating: 10, language: "Tamil" } }
+);
+
+db.books.findOne({ name: "The Secret" });
+
+// 4. update language="Hindi" for "The power is within you"
+db.books.updateOne(
+  { name: "The power is within you" },
+  { $set: { language: "Hindi" } }
+);
+
+// 5. Delete all books with rating below 7
+
+db.books.find({ rating: { $lte: 7 } }, { name: 1, rating: 1 }).pretty();
+
+db.books.deleteOne({ rating: { $lte: 7 } });
+
+
+db.books.deleteMany({ rating: { $lte: 7 } });
+
+
+db.books.find().count()
+
+
+
+
+
+
