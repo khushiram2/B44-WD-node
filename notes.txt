@@ -1,0 +1,14 @@
+// req -> What we send to Server
+// res => what we receive from server
+
+Create package.json
+//1.create a folder - create new file- index.js
+//2. create package.json - npm init
+//npm i express
+
+
+//Task
+// /books -  get all books
+// /books?language=English => only English books
+// /books?language=English&rating=8 => filter by language and rating
+///books?rating=8 => filter by rating
