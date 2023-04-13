@@ -3,6 +3,8 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
+import { booksRouter } from "./routes/books.js";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
@@ -18,7 +20,7 @@ async function createConnection() {
   return client;
 }
 
-const client = await createConnection();
+export const client = await createConnection();
 
 const books = [
   {
@@ -116,61 +118,10 @@ app.get("/", (req, res) => {
   res.send("Hello Everyone🥳🥳🥳🥳");
 });
 
-//get all books
-
-app.get("/books", async (req, res) => {
-  const { language, rating } = req.query;
-  console.log(req.query, language);
-  // let filteredBooks = books;
-  // if (language) {
-  //   filteredBooks = books.filter((bk) => bk.language === language);
-  // }
-  if (req.query.rating) {
-    req.query.rating = +req.query.rating;
-  }
-  const book = await client
-    .db("b44wd")
-    .collection("books")
-    .find(req.query)
-    .toArray();
-  res.send(book);
-});
-
-//get books by id
-
-app.get("/books/:id", async (req, res) => {
-  const { id } = req.params;
-  console.log(req.params);
-  //db.books.findOne({id: "001"})
-  //const book = books.find((bk) => bk.id === id);
-  const book = await client.db("b44wd").collection("books").findOne({ id: id });
-  book ? res.send(book) : res.status(404).send({ message: "No Books found" });
-});
-
-//delete books by id
-
-app.delete("/books/:id", async (req, res) => {
-  const { id } = req.params;
-  console.log(req.params);
-  //db.books.findOne({id: "001"})
-  //const book = books.find((bk) => bk.id === id);
-  const book = await client
-    .db("b44wd")
-    .collection("books")
-    .deleteOne({ id: id });
-  res.send(book);
-});
-
-//Add book data
-
-app.post("/books", async (req, res) => {
-  const newBooks = req.body;
-  console.log(req.body);
-  const result = await client
-    .db("b44wd")
-    .collection("books")
-    .insertMany(newBooks);
-  res.send(result);
-});
+app.use("/books", booksRouter);
 
 app.listen(PORT, () => console.log("Server started on the port", PORT));
+
+
+//task
+// update a book by id - put
