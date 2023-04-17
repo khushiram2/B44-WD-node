@@ -4,8 +4,9 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 import cors from "cors";
-import { booksRouter } from "./routes/books.js";
 
+import { booksRouter } from "./routes/books.js";
+import { usersRouter } from "./routes/users.js";
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -122,7 +123,6 @@ app.get("/", (req, res) => {
 
 app.use("/books", booksRouter);
 
-app.listen(PORT, () => console.log("Server started on the port", PORT));
+app.use("/users", usersRouter);
 
-//task
-// update a book by id - put
+app.listen(PORT, () => console.log("Server started on the port", PORT));
