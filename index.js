@@ -13,7 +13,7 @@ app.use(cors());
 const PORT = process.env.PORT;
 
 //console.log(process.env.MONGO_URL);
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = "mongodb://localhost:27017";
 
 //Mongo connection
 async function createConnection() {
